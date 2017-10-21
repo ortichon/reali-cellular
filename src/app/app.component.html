@@ -1,4 +1,8 @@
-<div #appContainer class="app-container">
+<div #appContainer
+     class="app-container"
+     [ngClass]="{'episodes-shown': isEpisodesShown, 'video-shown': isVideoShown}">
+
+  <button *ngIf="isEpisodesShown" class="back" (click)="back()"><</button>
 
   <app-series
     [series]="series"

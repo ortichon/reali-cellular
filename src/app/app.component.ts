@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   series: Series[];
   videoUrl: string;
   scrollInterval: any;
+  isVideoShown: boolean;
+  isEpisodesShown: boolean;
   selectedSeriesId: number;
   previousHttpRequest: Subscription;
 
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit {
   }
 
   showSelected(showId: number): void {
+    this.isEpisodesShown = true;
     this.handlePreviousHttpRequest();
     this.videoUrl = null; // remove previous video if exists
     this.selectedSeriesId = showId;
@@ -67,6 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   episodeSelected(episode: Episode): void {
+    this.isVideoShown = true;
     this.videoUrl = episode.url;
   }
 
@@ -79,5 +83,15 @@ export class AppComponent implements OnInit {
     if (this.appContainer.nativeElement.scrollTop >= this.appContainer.nativeElement.scrollHeight / 2) {
       clearInterval(this.scrollInterval);
     }
+  }
+
+  back() {
+    if (this.isVideoShown) {
+      this.videoUrl = null;
+      this.isVideoShown = false;
+      return;
+    }
+
+    this.isEpisodesShown = false;
   }
 }

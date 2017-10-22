@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     return [];
   }
 
+  error: string;
   series: Series[];
   videoUrl: string;
   scrollInterval: any;
@@ -39,7 +40,13 @@ export class AppComponent implements OnInit {
 
   loadSeries(): void {
     this.dataSource.getSeries()
-      .subscribe((res: Series[]) => this.series = res);
+      .subscribe(
+        (res: Series[]) => {
+          this.clearErrorMessage();
+          this.series = res;
+        },
+        (error: any) => this.error = 'Could not load series'
+      );
   }
 
   showSelected(showId: number): void {
@@ -50,7 +57,13 @@ export class AppComponent implements OnInit {
 
     if (this.isShowGotNoEpisodes()) {
       this.previousHttpRequest = this.dataSource.getEpisodes(showId)
-        .subscribe((res: Episode[]) => this.parseEpisodes(res, showId));
+        .subscribe(
+          (res: Episode[]) => {
+            this.clearErrorMessage();
+            this.parseEpisodes(res, showId);
+          },
+          (error: any) => this.error = 'Could not load episodes'
+        );
     }
   }
 
@@ -86,6 +99,8 @@ export class AppComponent implements OnInit {
   }
 
   back() {
+    this.clearErrorMessage();
+
     if (this.isVideoShown) {
       this.videoUrl = null;
       this.isVideoShown = false;
@@ -93,5 +108,9 @@ export class AppComponent implements OnInit {
     }
 
     this.isEpisodesShown = false;
+  }
+
+  clearErrorMessage(): void {
+    this.error = null;
   }
 }

@@ -5,6 +5,26 @@
   padding-top: 10px;
   padding-bottom: 10px;
   overflow: auto;
+  
+  .error-message {
+    background: rgba(255, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.6);
+    height: 30px;
+    left: 12px;
+    line-height: 30px;
+    position: fixed;
+    right: 12px;
+    text-align: center;
+    top: 36px;
+    z-index: 999;
+
+    .close-error {
+      cursor: pointer;
+      position: absolute;
+      right: 5px;
+      top: 0;
+    }
+  }
 
   .scroll-button {
     position: fixed;
